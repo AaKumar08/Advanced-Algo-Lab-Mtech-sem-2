@@ -4,7 +4,9 @@ class QuickSort{
 	void sort(int A[],int p, int q){
 		int mid=0;
 		
-		// Question: Why p<=q not used as if Condition?
+		// Question: Why p<=q not used as if Condition? Ans it can be used.Because partition 
+		// will be ineffective when list to be sorted contains only one element.
+		// so use condition p<q
 		if(p<q){
 			mid = partition(A,p,q);
 			sort(A,p,mid-1);
@@ -12,15 +14,15 @@ class QuickSort{
 		}
 	}
 	int partition(int A[], int p, int q){
-		int i=-1;
-		int j=0;
+		int i=p-1;
+		int j=p;
 		int n=q-p+1;
 		int pivot = A[p];
 		int temp = 0;
 		
 		int pivotIndex = p;
 		
-		for(j=0; j<n; j++){
+		for(j=p; j<p+n-1; j++){
 			if(pivot>A[j]){
 				i=i+1;
 				//swap 
