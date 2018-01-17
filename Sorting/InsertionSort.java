@@ -21,7 +21,7 @@ class InsertionSort{
 	}
 	public static void main(String[] args){
 		int numElements = 0;
-		System.out.println("Dear user!!, please enter number of elements you want to enter: ");
+		System.out.println("Please enter number of elements you want to enter: ");
 		Scanner scan = new Scanner(System.in);
 		
 		numElements = scan.nextInt();
