@@ -17,7 +17,7 @@ class SparseMatrix{
 		int arr[][] = new int[n][3];
 
 		// Getting input from the user
-		System.out.println("\nEnter the elements format is Element row_index col_index: ");
+		System.out.println("\nEnter the elements in format:\nElement row_index col_index: ");
 		for(int i=0;i<n;i++){
 			for(int j=0;j<3;j++){
 				arr[i][j] = scan.nextInt();
@@ -30,11 +30,11 @@ class SparseMatrix{
 		for(int i=0;i<row;i++){
 			for(int j=0;j<col;j++){
 				if(i==arr[ptr][1] && j==arr[ptr][2]){
-					System.out.print(" "+arr[ptr][0]);
+					System.out.print("  "+arr[ptr][0]);
 					ptr = ptr+1;
 				}
 				else{
-					System.out.print(" "+0);
+					System.out.print("  "+0);
 				}
 			}
 			System.out.println(" ");
