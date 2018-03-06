@@ -130,40 +130,46 @@ public class avlTree{
 		root = insert(root,key);
 		
 		Node z = search(root,key);
-		System.out.println("z.key: "+z.key);
-		
-		// updating the heights of z's parent and it's grandparent
-		if(z.parent!=nil){
-			z.parent.height = heightNode(z.parent);
-			if(z.parent.parent!=nil)
-				z.parent.parent.height = heightNode(z.parent.parent);
-		
-			// checking if the bst property is violated at the grandparent or not
-			Node gp = z.parent.parent;
-			if(gp!=nil){
-				int hLeftChild = gp.left.height;
-				int hRightChild = gp.right.height;
-				int balanceFactorGP = hLeftChild - hRightChild;
+		Node current = z;
+		Node currentParent = z.parent;
+		Node currentGp = currentParent.parent;
+		int hLeftChild = 0;
+		int hRightChild = 0;
+		int balanceFactorGP =0;
+		if(currentGp!=null && currentParent!=null){
+			while(currentGp!=root){
+				// Calculating balance factor of grandparent
+				hLeftChild = currentGp.left.height;
+				hRightChild = currentGp.right.height;
+				balanceFactorGP = hLeftChild - hRightChild;
+				
 				if((balanceFactorGP==-1)||(balanceFactorGP==0)||(balanceFactorGP==1)){
-					return root;
+					current = currentParent;
+					currentParent = currentGp;
+					currentGp = currentGp.parent;
 				}
-				else{
-					if((gp.left==z.parent)&&(gp.left.left==z)){
-						root = rightRotate(root,gp);
-					}
-					else if((gp.right==z.parent)&&(gp.right.right==z))
-						root = leftRotate(root,gp);
-					else if((gp.left==z.parent)&&(gp.left.right==z)){
-						root = leftRotate(root,z.parent);
-						root = rightRotate(root,z.parent);
-					}
-					else if((gp.right==z.parent)&&(gp.right.left==z)){
-						root = rightRotate(root,z.parent);
-						root = leftRotate(root,z.parent);
-					}
-				}
+				else
+					break;
 			}
 		}
+		if(currentGp==root)
+			return root;
+		else{
+				// perform rotations
+				if((currentGp.left==currentParent)&&(currentGp.left.left==current)){
+					root = rightRotate(root,currentGp);
+				}
+				else if((currentGp.right==currentParent)&&(currentGp.right.right==current))
+					root = leftRotate(root,currentGp);
+				else if((currentGp.left==currentParent)&&(currentGp.left.right==current)){
+					root = leftRotate(root,currentParent);
+					root = rightRotate(root,currentParent);
+				}
+				else if((currentGp.right==currentParent)&&(currentGp.right.left==current)){
+					root = rightRotate(root,currentParent);
+					root = leftRotate(root,currentParent);
+				}
+			}
 		
 		return root;
 	}
