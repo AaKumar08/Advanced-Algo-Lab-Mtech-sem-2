@@ -24,21 +24,25 @@ public class avlTree{
 	}
 	
 	// Method to find height of a node
-	int heightNode(Node root){
+	static int heightNode(Node root){
 		int hLeftChild = 0;
 		int hRightChild = 0;
-		int h = 0;
+		int h = -2;
 		
 		if(root==nil)
+			return -1;
+		else if(root.left==nil && root.right==nil)
 			return 0;
 		else{
 			hLeftChild = heightNode(root.left);
 			hRightChild = heightNode(root.right);
 			if(hLeftChild > hRightChild)
 				h = hLeftChild+1;
-			else
+			else if(hLeftChild < hRightChild)
 				h = hRightChild+1;
 		}
+		// updating height as we trace back
+		root.height = h;
 		return h;
 	}
 	
@@ -105,7 +109,7 @@ public class avlTree{
 		}
 		Node z = new Node(key);
 		z.parent = y;
-		z.height = heightNode(root);
+		
 		z.left = nil;
 		z.right = nil;
 		
@@ -117,6 +121,7 @@ public class avlTree{
 		else
 			y.right = z;
 		
+		heightNode(root);
 		return root;
 	}
 	
@@ -125,12 +130,13 @@ public class avlTree{
 		root = insert(root,key);
 		
 		Node z = search(root,key);
+		System.out.println("z.key: "+z.key);
 		
 		// updating the heights of z's parent and it's grandparent
 		if(z.parent!=nil){
-			z.parent.height = heightNode(root);
+			z.parent.height = heightNode(z.parent);
 			if(z.parent.parent!=nil)
-				z.parent.parent.height = heightNode(root);
+				z.parent.parent.height = heightNode(z.parent.parent);
 		
 			// checking if the bst property is violated at the grandparent or not
 			Node gp = z.parent.parent;
@@ -171,7 +177,7 @@ public class avlTree{
 		
 		// updating the heights of z's parent
 		if(z.parent!=nil){
-			z.parent.height = heightNode(root);
+			z.parent.height = heightNode(z.parent);
 			
 			// checking if the bst property is violated at the parent or not
 			Node p = z.parent;
@@ -261,6 +267,17 @@ public class avlTree{
 			display(root.right);
 		}
 	}
+	// Display the avl
+	void display_height(Node root){
+		if(root == nil){
+			return;
+		}
+		else{
+			display_height(root.left);
+			System.out.print(" "+ root.height);
+			display_height(root.right);
+		}
+	}
 	public static void main(String[] args){
 		Node root = nil;
 		avlTree avl = new avlTree();
@@ -284,19 +301,36 @@ public class avlTree{
 		// Display
 		avl.display(root);
 		*/
-		root = avl.insertAVL(root, 29);
-		root = avl.insertAVL(root, 26);
-		root = avl.insertAVL(root, 30);
-		root = avl.insertAVL(root, 28);
-		root = avl.insertAVL(root, 27);
 		root = avl.insertAVL(root, 25);
+		System.out.println("root.key: "+root.key);
+		
+		root = avl.insertAVL(root, 29);
+		System.out.println("root.key: "+root.key);
+		root = avl.insertAVL(root, 24);
+		System.out.println("root.key: "+root.key);
+		
+		
+		root = avl.insertAVL(root, 26);
+		System.out.println("root.key: "+root.key);
+		//root = avl.insertAVL(root, 30);
+		//root = avl.insertAVL(root, 31);
 		
 		// Display
 		avl.display(root);
+		
+		//int ht = avl.heightNode(root.left);
+		// printing heights of all the nodes
+		//avl.display_height(root);
+		
+		// Printing root of the tree 
+		System.out.println("root.key: "+root.key);
+		System.out.println("root left : "+root.left.key);
+		System.out.println("root right : "+root.right.key);
+		
 		System.out.println("");
-		root = avl.deleteAVL(root, 25);
+		//root = avl.deleteAVL(root, 25);
 		// Display
-		avl.display(root);
+		//avl.display(root);
 		
 		
 	}
